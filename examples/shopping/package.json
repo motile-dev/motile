@@ -1,0 +1,22 @@
+{
+  "name": "shopping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "trigs dev",
+    "refresh": "trigs refresh",
+    "version": "trigs -V"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "drizzle-kit": "^0.20.14",
+    "drizzle-orm": "^0.29.3",
+    "pg": "^8.11.3",
+    "trigs": "0.0.1-alpha.5",
+    "typescript": "^5.3.3"
+  }
+}

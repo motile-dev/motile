@@ -1,0 +1,58 @@
+version: "3.8"
+name: trigs-dev
+
+configs:
+  postgres_config:
+    file: "config/postgres/postgres.conf"
+
+volumes:
+  pg_data:
+
+services:
+  postgres:
+    image: "postgres:13"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    command:
+      - -c
+      - config_file=/etc/postgresql.conf
+    configs:
+      - source: postgres_config
+        target: /etc/postgresql.conf
+    ports:
+      - 0.0.0.0:2345:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  trigs-exec:
+    build: packages/trigs-exec
+    image: "trigsdev/trigs-exec:dev"
+    ports:
+      - 4020:4020
+    develop:
+      watch:
+        - action: sync
+          path: packages/trigs-exec
+          target: /usr/src/app
+        - action: rebuild
+          path: packages/trigs-exec/package.json
+          environment:
+            DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+    depends_on:
+      - postgres
+
+  trigs-core:
+    build: packages/trigs-core
+    image: "trigsdev/trigs-core:dev"
+    develop:
+      watch:
+        - action: rebuild
+          path: packages/trigs-core/
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      TRIGS_EXEC_URL: http://trigs-exec:4020
+    ports:
+      - 3377:3377
+    depends_on:
+      - postgres

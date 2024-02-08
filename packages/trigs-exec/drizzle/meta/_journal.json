@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1702726748520,
+      "tag": "0000_equal_black_panther",
+      "breakpoints": true
+    }
+  ]
+}

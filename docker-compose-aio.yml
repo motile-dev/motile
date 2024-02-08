@@ -1,0 +1,53 @@
+version: "3.8"
+
+configs:
+  postgres_config:
+    file: "./postgres/postgres.conf"
+
+volumes:
+  pg_data:
+
+services:
+  postgres:
+    image: "postgres:13"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    command:
+      - -c
+      - config_file=/etc/postgresql.conf
+    configs:
+      - source: postgres_config
+        target: /etc/postgresql.conf
+    ports:
+      - 0.0.0.0:2345:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  trigs:
+    build: .
+    image: "trigsdev/trigs:dev"
+    develop:
+      watch:
+        - action: sync
+          path: ./app/src
+          target: /app/runner/src
+        - action: rebuild
+          path: ./app/package.json
+        - action: rebuild
+          path: ./lib/
+        - action: rebuild
+          path: ./mix.exs
+        - action: rebuild
+          path: ./supervisord.conf
+        - action: rebuild
+          path: ./config/
+        - action: rebuild
+          path: ./deps/
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+    ports:
+      - 0.0.0.0:3377:3377
+      - 0.0.0.0:4020:4020
+    depends_on:
+      - postgres

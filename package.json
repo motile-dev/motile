@@ -1,0 +1,13 @@
+{
+  "name": "trigs",
+  "scripts": {
+    "dev": "FILE=docker-compose-dev.yml; docker-compose -f $FILE watch"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "workspaces": ["packages/*"]
+}
