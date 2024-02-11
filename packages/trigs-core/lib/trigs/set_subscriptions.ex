@@ -8,7 +8,7 @@ defmodule Trigs.SetSubscriptions do
   defp fetch_and_set_subscriptions do
     IO.puts("Fetching and setting subscriptions from " <> System.get_env("TRIGS_EXEC_URL"))
 
-    case Req.get(System.get_env("TRIGS_EXEC_URL") <> "/api/schema/tables") do
+    case Req.get(System.get_env("TRIGS_EXEC_URL") <> "/api/handlers/tables") do
       {:ok, data} ->
         Trigs.Utils.set_subscriptions(["_trigs_ddl_log"] ++ data.body["tables"])
 

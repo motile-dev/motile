@@ -6,7 +6,7 @@
   "bin": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -watch",
     "dev": "node --loader @esbuild-kit/esm-loader ./index.ts"
   },
   "keywords": [],
@@ -17,6 +17,7 @@
     "@types/node": "^20.10.1",
     "chalk": "^5.3.0",
     "commander": "^11.1.0",
+    "dotenv": "^16.4.2",
     "drizzle-orm": "^0.29.1",
     "dynamic-import-no-cache": "^1.0.3",
     "esbuild": "^0.19.11",

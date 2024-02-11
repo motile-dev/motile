@@ -7,7 +7,7 @@ export async function refreshSchema(databaseUrl: string) {
     "--connectionString",
     databaseUrl,
     "--out",
-    "/app/runner/drizzle",
+    "/usr/src/app/drizzle",
     "--driver",
     "pg",
   ]);

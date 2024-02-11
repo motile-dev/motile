@@ -9,6 +9,11 @@ import {
   watchAndDeployInfinitely,
   pollRemoteSchemaInfinitely,
 } from "./utils/infinitely.js";
+import { config } from "dotenv";
+
+config({ path: ".env.local" });
+config({ path: `.env.${process.env.NODE_ENV ?? "development"}` });
+config({ path: ".env" });
 
 const program = new Command();
 

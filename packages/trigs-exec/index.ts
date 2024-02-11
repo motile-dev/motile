@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { handlers } from "./hot/handlers";
+import { handlers } from "./hot/handlers.js";
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import * as schema from "./drizzle/schema";
@@ -43,9 +43,26 @@ const app = new Elysia()
       }),
     },
   )
-  .get("/api/schema/tables", () => {
+  .get("/api/handlers/tables", () => {
     return { tables: Object.keys(handlers) };
   })
+  .get("/api/schema", () => {
+    return Bun.file("drizzle/schema.ts").text();
+  })
+  .post(
+    "api/handlers",
+    ({ body }) => {
+      Bun.write("hot/handlers.js", body.code);
+      console.log("Wrote handlers to hot/handlers.js");
+      return "ok";
+    },
+    {
+      body: t.Object({
+        code: t.String(),
+        tables: t.Array(t.String()),
+      }),
+    },
+  )
   .post("api/schema/refresh", () => {
     refreshSchema(databaseUrl);
   })

@@ -12,19 +12,36 @@ defmodule Trigs.Api do
 
   post "/deploy" do
     tables = conn.body_params["tables"]
+    code = conn.body_params["code"]
 
     Trigs.Utils.set_subscriptions(["_trigs_ddl_log"] ++ tables)
-    IO.puts(conn.body_params["code"])
+    # IO.puts(conn.body_params["code"])
 
-    File.write("/app/runner/src/handlers.js", conn.body_params["code"])
+    # File.write("/app/runner/src/handlers.js", conn.body_params["code"])
+    url = System.get_env("TRIGS_EXEC_URL") <> "/api/handlers"
+    IO.puts("Deploy")
+
+    case Req.post(
+           url,
+           json: %{
+             code: code,
+             tables: tables
+           }
+         ) do
+      {:ok, data} ->
+        send_resp(conn, 200, data.body)
+
+      {:error, reason} ->
+        send_resp(conn, 500, "Error updating handlers: #{reason}")
+    end
 
     send_resp(conn, 200, "OK")
   end
 
   get "/schema" do
-    case File.read("/app/runner/drizzle/schema.ts") do
-      {:ok, schema} ->
-        send_resp(conn, 200, schema)
+    case Req.get(System.get_env("TRIGS_EXEC_URL") <> "/api/schema") do
+      {:ok, data} ->
+        send_resp(conn, 200, data.body)
 
       {:error, reason} ->
         # Handle the error case. Could send a different status code/message
@@ -33,7 +50,7 @@ defmodule Trigs.Api do
   end
 
   post "/refresh" do
-    case Req.post("http://127.0.0.1:4020/api/schema/refresh") do
+    case Req.post(System.get_env("TRIGS_EXEC_URL") <> "/api/schema/refresh") do
       {:ok, _} ->
         send_resp(conn, 200, ~c"OK")
 

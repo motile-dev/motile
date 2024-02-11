@@ -30,6 +30,8 @@ services:
     image: "trigsdev/trigs-exec:dev"
     ports:
       - 4020:4020
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
     develop:
       watch:
         - action: sync
@@ -37,8 +39,6 @@ services:
           target: /usr/src/app
         - action: rebuild
           path: packages/trigs-exec/package.json
-          environment:
-            DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
     depends_on:
       - postgres
 

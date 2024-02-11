@@ -8,6 +8,7 @@
     "start.smol": "bun run --smol --hot src/index.ts"
   },
   "dependencies": {
+    "dotenv": "^16.4.2",
     "drizzle-kit": "^0.20.6",
     "drizzle-orm": "^0.29.1",
     "elysia": "latest",

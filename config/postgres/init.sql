@@ -35,3 +35,6 @@ CREATE EVENT TRIGGER log_ddl_trigger
 ON ddl_command_end
 EXECUTE FUNCTION log_ddl_changes();
 
+CREATE PUBLICATION events FOR ALL TABLES;
+
+ALTER TABLE chats REPLICA IDENTITY FULL;
