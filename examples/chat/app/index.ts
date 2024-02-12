@@ -1,8 +1,6 @@
-import "dotenv/config";
-import { eq } from "drizzle-orm";
-import * as schema from "@trigs/schema";
 import { Trigs } from "@trigs";
 import { messages } from "./chat/messages";
+import { users } from "./users";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -26,30 +24,6 @@ export const handlers: Trigs = {
       },
     ],
   },
-  users: {
-    insert: [
-      {
-        handler: async (record, db) => {
-          console.log(`Whoop, you got it nearly!: ${record.firstName}`);
-
-          const users = await db.query.users.findMany({
-            where: eq(schema.users.id, "this"),
-          });
-
-          console.log(
-            `Another interesting user: ${users.map((c) => c.firstName)}`,
-          );
-        },
-
-        name: "log",
-      },
-    ],
-    update: [
-      {
-        handler: (record: any) => console.log(`chat update: ${record}`),
-        name: "log",
-      },
-    ],
-  },
+  ...users,
   ...messages,
 };

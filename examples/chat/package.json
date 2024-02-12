@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "up": "docker compose up -d",
+    "db.migrate": "pg-migrations apply --directory db/migrations --database postgres://postgres:postgres@localhost:2345/postgres",
     "dev": "trigs dev",
     "refresh": "trigs refresh",
     "version": "trigs -V"
@@ -13,11 +14,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "drizzle-kit": "^0.20.14",
     "drizzle-orm": "^0.29.3",
     "pg": "^8.11.3",
     "resend": "^3.1.0",
-    "trigs": "0.0.1-alpha.5",
+    "trigs": "0.0.1-alpha.5"
+  },
+  "devDependencies": {
+    "@databases/pg-migrations": "^5.0.3",
+    "drizzle-kit": "^0.20.14",
     "typescript": "^5.3.3"
   }
 }

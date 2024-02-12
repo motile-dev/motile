@@ -1,6 +1,6 @@
 {
   "name": "trigs",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.6",
   "description": "The client library for trigs",
   "main": "index.js",
   "bin": "dist/index.js",
