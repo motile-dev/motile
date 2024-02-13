@@ -1,30 +1,33 @@
 import { Trigs } from "@trigs";
 import * as schema from "@trigs/schema";
-import { eq } from "drizzle-orm";
 
 export const users: Trigs = {
   users: {
     insert: [
       {
         handler: async (record, db) => {
-          console.log(`Whoop, you got it nearly!: ${record.firstName}`);
-
-          const users = await db.query.users.findMany({
-            where: eq(schema.users.id, "this"),
+          await db.insert(schema.messages).values({
+            messageText: `Hi I'm new here! My name is: ${record.username}`,
+            userId: record.userId,
           });
-
-          console.log(
-            `Another interesting user: ${users.map((c) => c.firstName)}`,
-          );
         },
-
-        name: "log",
+        name: "introduction",
       },
     ],
     update: [
       {
-        handler: (record: any) => console.log(`chat update: ${record}`),
-        name: "log",
+        handler: async (record) => {
+          await fetch(
+            "https://hooks.slack.com/services/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",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                text: `User ${record.email} was just updated`,
+              }),
+            },
+          );
+        },
+        name: "slack",
       },
     ],
   },
