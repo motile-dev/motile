@@ -1,6 +1,6 @@
 {
   "name": "create-trigs",
-  "version": "0.0.1-alpha7",
+  "version": "0.0.1-alpha.10",
   "description": "",
   "main": "dist/index.js",
   "bin": "dist/index.js",
@@ -8,6 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup --format esm index.ts",
+    "publish": "tsup --format esm index.ts && npm publish",
     "dev": "node --watch --loader @esbuild-kit/esm-loader ./index.ts",
     "start": "node --loader @esbuild-kit/esm-loader ./index.ts"
   },
@@ -20,6 +21,7 @@
     "@inquirer/prompts": "^4.0.0",
     "execa": "^8.0.1",
     "giget": "^1.2.1",
+    "log-update": "^6.0.0",
     "replace-in-file": "^7.1.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"

@@ -6,6 +6,8 @@ import { $ } from "execa";
 import { downloadTemplate } from "giget";
 import replaceInFile from "replace-in-file";
 import fs from "node:fs";
+import chalk from "chalk";
+import { startSpinner } from "./utils/cli.js";
 
 async function run() {
   const packageManager = getPackageManager();
@@ -36,7 +38,9 @@ async function run() {
     ],
   });
 
-  console.log("Creating project from template ", template);
+  const stopTemplateDownloadSpinner = startSpinner(
+    `Creating project from template ${template}`,
+  );
   await downloadTemplate(`github:trigsdev/trigs/examples/${template}`, {
     dir: projectName,
     forceClean: true,
@@ -48,28 +52,34 @@ async function run() {
     to: `  "name": "${projectName}"`,
   });
 
+  stopTemplateDownloadSpinner();
+
   fs.writeFileSync(`${projectName}/.env`, `TRIGS_SERVER=${serverUrl}\n`);
 
-  console.log("Installing packages with ", packageManager.value);
+  const stopInstallPackagesSpinner = startSpinner(
+    `Installing packages with ${packageManager.value}`,
+  );
+
   await $({
     cwd: projectName,
   })`${packageManager.value} install`;
 
-  console.log(`
-    Project created successfully 🎉
+  stopInstallPackagesSpinner();
 
-    To get started, run the following commands:
+  console.log(`    🎉  Project created successfully  🎉
 
-    # Change into the project directory
+    Now go an have some fun!
+
+    ${chalk.hex("#666")(`# Change into the project directory`)}
     cd ${projectName}
 
-    # Ramp up a database and start the server
+    ${chalk.hex("#666")(`# Ramp up a database and start the server`)}
     ${packageManager.value} up
 
-    # Prepare the database for the example
+    ${chalk.hex("#666")(`# Prepare the database for the example`)}
     ${packageManager.value} db.migrate
 
-    # Use trigs cli sync your project with the server
+    ${chalk.hex("#666")(`# Use trigs cli to sync your project with the server`)}
     ${packageManager.value} dev
     `);
 }
