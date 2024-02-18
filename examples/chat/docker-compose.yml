@@ -27,6 +27,7 @@ services:
 
   trigs-exec:
     image: "trigsdev/trigs-exec:latest"
+    restart: on-failure
     ports:
       - 4020:4020
     environment:

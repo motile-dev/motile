@@ -1,0 +1,29 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "up": "docker compose up -d",
+    "db.migrate": "pg-migrations apply --directory db/migrations --database postgres://postgres:postgres@localhost:2345/postgres",
+    "dev": "trigs dev",
+    "refresh": "trigs refresh",
+    "version": "trigs -V"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "drizzle-orm": "^0.29.3",
+    "pg": "^8.11.3",
+    "react-dom": "^18.2.0",
+    "resend": "^3.1.0",
+    "trigs": "0.0.1-alpha.6"
+  },
+  "devDependencies": {
+    "@databases/pg-migrations": "^5.0.3",
+    "@types/react-dom": "^18.2.19",
+    "drizzle-kit": "^0.20.14",
+    "typescript": "^5.3.3"
+  }
+}

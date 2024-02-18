@@ -1,10 +1,12 @@
 import { Elysia, t } from "elysia";
+import { ElysiaWS } from "elysia/dist/ws";
 import { handlers } from "./hot/handlers.js";
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import * as schema from "./drizzle/schema";
 import { objectToCamel, toCamel } from "ts-case-convert";
 import { refreshSchema } from "./utils/refreshSchema";
+import { ServerWebSocket } from "bun";
 
 const databaseUrl =
   process.env.DATABASE_URL ??
@@ -12,6 +14,22 @@ const databaseUrl =
 
 const queryClient = postgres(databaseUrl);
 const db = drizzle(queryClient, { schema });
+
+type MaybePromise<T> = Promise<T> | T;
+
+const connections = new Map<
+  string,
+  ElysiaWS<ServerWebSocket<{ validator?: any }>>
+>();
+
+function sendToReceivers(receivers: string[], message: string) {
+  receivers.map((r) => {
+    const connection = connections.get(r);
+    if (connection) {
+      connection.send(message);
+    }
+  });
+}
 
 const app = new Elysia()
   .post(
@@ -23,10 +41,26 @@ const app = new Elysia()
         return;
       }
       // @ts-ignore
-      handlers[toCamel(body.data.name)][body.data.type].forEach(
+      const response = handlers[toCamel(body.data.name)][body.data.type].map(
         (handler: any) =>
           handler.handler(objectToCamel(body.data.new_record), db),
-      );
+      ) as MaybePromise<{ receivers: string[]; message: string }>[];
+
+      response.map((r) => {
+        if (!isPromise(r)) {
+          if (Boolean(r)) {
+            sendToReceivers(r.receivers, r.message);
+          }
+        } else
+          r.then((rwaited) => {
+            if (Boolean(rwaited)) {
+              console.log("Response", rwaited.receivers, rwaited.message);
+              sendToReceivers(rwaited.receivers, rwaited.message);
+            }
+          });
+      });
+
+      console.log("Response", response);
     },
     {
       body: t.Object({
@@ -66,8 +100,21 @@ const app = new Elysia()
   .post("api/schema/refresh", () => {
     refreshSchema(databaseUrl);
   })
+  .ws("wire", {
+    body: t.Object({
+      token: t.String(),
+    }),
+    message(ws, { token }) {
+      // @ts-ignore
+      connections.set(token, ws);
+    },
+  })
   .listen({ port: 4020, hostname: "0.0.0.0" });
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
 );
+
+function isPromise<T>(value: MaybePromise<T>): value is Promise<T> {
+  return typeof (value as Promise<T>).then === "function";
+}

@@ -28,6 +28,7 @@ services:
   trigs-exec:
     build: packages/trigs-exec
     image: "trigsdev/trigs-exec:dev"
+    restart: on-failure
     ports:
       - 4020:4020
     environment:
