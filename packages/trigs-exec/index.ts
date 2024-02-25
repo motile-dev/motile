@@ -46,6 +46,8 @@ const app = new Elysia()
           handler.handler(objectToCamel(body.data.new_record), db),
       ) as MaybePromise<{ receivers: string[]; message: string }>[];
 
+      console.log("Response", response);
+
       response.map((r) => {
         if (!isPromise(r)) {
           if (Boolean(r)) {
@@ -59,8 +61,6 @@ const app = new Elysia()
             }
           });
       });
-
-      console.log("Response", response);
     },
     {
       body: t.Object({
@@ -101,12 +101,14 @@ const app = new Elysia()
     refreshSchema(databaseUrl);
   })
   .ws("wire", {
-    body: t.Object({
-      token: t.String(),
-    }),
-    message(ws, { token }) {
-      // @ts-ignore
-      connections.set(token, ws);
+    body: t.Any(),
+    message(ws, data: any) {
+      if (data.token && data.token.length > 0) {
+        // @ts-ignore
+        connections.set(data.token, ws);
+      } else {
+        handlers.htmx[data.HEADERS["HX-Target"]].handler(data, db);
+      }
     },
   })
   .listen({ port: 4020, hostname: "0.0.0.0" });

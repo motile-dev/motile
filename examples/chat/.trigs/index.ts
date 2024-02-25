@@ -9,11 +9,18 @@ type Handler<T extends keyof typeof schema> = {
     record: InferSelect<T>,
     db: PostgresJsDatabase<typeof schema>,
   ) => any;
+  type?: HandlerType;
   name: string;
 };
+
+type HandlerType = "htmx";
 
 type Actions = "insert" | "update" | "delete";
 
 export type Trigs = {
   [table in keyof typeof schema]?: { [action in Actions]?: Handler<table>[] };
+} & {
+  htmx?: {
+    [event: string]: Handler<any>;
+  };
 };

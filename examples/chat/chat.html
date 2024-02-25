@@ -17,7 +17,7 @@
 
       ws.addEventListener("open", (event) => {
         console.log('Connected to the server.');
-      ws.send(JSON.stringify({ token: '1234' }));
+      ws.send(JSON.stringify({ token: '1d7438c3-87fa-4a90-b049-991dde32dc92' }));
     });
 
       return  ws;
@@ -28,15 +28,13 @@
     </script>
 
     <h1>Home</h1>
-    <p>Welcome to the home page.</p>
+    <p>Welcome to the chat page.</p>
 
-    <button onclick="changeTitle()">Change title</button>
     <div hx-ext="ws"  ws-connect="ws://localhost:4020/wire">
-      <div id="notifications"></div>
-      <div id="chat_room">
-      </div>
-      <form id="form" ws-send>
+      <div id="messages"></div>
+      <form id="new_chat_message" ws-send>
         <input name="chat_message">
+        <input type="submit" value="Submit">
       </form>
     </div>
 
