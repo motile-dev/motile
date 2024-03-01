@@ -1,11 +1,11 @@
-import { Trigs } from "@trigs";
-import { users } from "@trigs/schema";
+import { Motile } from "@motile";
+import { users } from "@motile/schema";
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const messages: Trigs = {
+export const messages: Motile = {
   messages: {
     insert: [
       {
@@ -21,7 +21,7 @@ export const messages: Trigs = {
             to: "dave.alex.maier@gmail.com",
             subject: `New chat message from ${user?.username}`,
             html: `<p>User ${user?.username} sent you a message!</p>
-                   <p style="margin-left: 20px">${record.messageText}</p>`,
+            <p style="margin-left: 20px">${record.messageText}</p>`,
           });
         },
         name: "email",

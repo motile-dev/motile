@@ -1,12 +1,12 @@
 -- This was taken from https://www.percona.com/blog/power-of-postgresql-event-based-triggers/
-CREATE TABLE _trigs_ddl_log (
+CREATE TABLE _motile_ddl_log (
   id integer PRIMARY KEY, username TEXT,
   object_tag TEXT, ddl_command TEXT,
   timestamp TIMESTAMP
 );
 CREATE SEQUENCE ddl_log_seq;
 CREATE
-OR REPLACE FUNCTION log_ddl_changes() RETURNS event_trigger AS $$ BEGIN INSERT INTO _trigs_ddl_log (
+OR REPLACE FUNCTION log_ddl_changes() RETURNS event_trigger AS $$ BEGIN INSERT INTO _motile_ddl_log (
   id, username, object_tag, ddl_command,
   Timestamp
 )

@@ -1,0 +1,36 @@
+{
+  "name": "motile",
+  "version": "0.0.1-alpha.1",
+  "description": "The client library for motile",
+  "main": "index.js",
+  "bin": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build.watch": "tsc -watch",
+    "build": "tsc",
+    "dev": "node --loader @esbuild-kit/esm-loader ./index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@badrap/result": "^0.2.13",
+    "@types/node": "^20.10.1",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "dotenv": "^16.4.2",
+    "drizzle-orm": "^0.29.1",
+    "dynamic-import-no-cache": "^1.0.3",
+    "esbuild": "^0.19.11",
+    "figlet": "^1.7.0",
+    "pg": "^8.11.3",
+    "pkg-dir": "^8.0.0",
+    "postgres": "^3.4.3",
+    "typescript": "^5.3.2",
+    "watcher": "^2.3.0"
+  },
+  "devDependencies": {
+    "@esbuild-kit/esm-loader": "^2.6.5",
+    "@types/figlet": "^1.5.8"
+  }
+}

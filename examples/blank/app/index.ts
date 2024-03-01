@@ -1,5 +1,5 @@
-import { Trigs } from "@trigs";
+import { Motile } from "@motile";
 
 export const handlers = {
   // Place the handlers here, types will guide you.
-} satisfies Trigs;
+} satisfies Motile;

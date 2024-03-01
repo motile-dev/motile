@@ -1,10 +1,10 @@
-import { Trigs } from "@trigs";
-import * as schema from "@trigs/schema";
+import { Motile } from "@motile";
+import * as schema from "@motile/schema";
 import { sql } from "drizzle-orm";
 import { format, parse } from "@formkit/tempo";
 import { escapeHtml as e } from "@kitajs/html";
 
-export const users: Trigs = {
+export const users: Motile = {
   users: {
     insert: [
       {
@@ -19,7 +19,7 @@ export const users: Trigs = {
 
           const formattedDate = format(
             parse(record.createdAt ?? "now"),
-            "medium",
+            "medium"
           );
 
           return {
@@ -56,7 +56,7 @@ export const users: Trigs = {
               body: JSON.stringify({
                 text: `User ${record.email} was just updated`,
               }),
-            },
+            }
           );
         },
         name: "slack",

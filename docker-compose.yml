@@ -1,5 +1,5 @@
 version: "3.8"
-name: trigs-dev
+name: motile-dev
 
 configs:
   postgres_config:
@@ -25,9 +25,9 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
-  trigs-exec:
-    build: packages/trigs-exec
-    image: "trigsdev/trigs-exec:dev"
+  motile-exec:
+    build: packages/motile-exec
+    image: "motiledev/motile-exec:dev"
     restart: on-failure
     ports:
       - 4020:4020
@@ -36,23 +36,23 @@ services:
     develop:
       watch:
         - action: sync
-          path: packages/trigs-exec
+          path: packages/motile-exec
           target: /usr/src/app
         - action: rebuild
-          path: packages/trigs-exec/package.json
+          path: packages/motile-exec/package.json
     depends_on:
       - postgres
 
-  trigs-core:
-    build: packages/trigs-core
-    image: "trigsdev/trigs-core:dev"
+  motile-core:
+    build: packages/motile-core
+    image: "motiledev/motile-core:dev"
     develop:
       watch:
         - action: rebuild
-          path: packages/trigs-core/
+          path: packages/motile-core/
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
-      TRIGS_EXEC_URL: http://trigs-exec:4020
+      motile_EXEC_URL: http://motile-exec:4020
     ports:
       - 3377:3377
     depends_on:

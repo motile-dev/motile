@@ -23,7 +23,7 @@ dependencies:
   resend:
     specifier: ^3.1.0
     version: 3.1.0
-  trigs:
+  motile:
     specifier: 0.0.1-alpha.6
     version: 0.0.1-alpha.6(react@18.2.0)
 
@@ -2441,7 +2441,7 @@ packages:
       os-tmpdir: 1.0.2
     dev: true
 
-  /trigs@0.0.1-alpha.6(react@18.2.0):
+  /motile@0.0.1-alpha.6(react@18.2.0):
     resolution: {integrity: sha512-Py/ud+3ttb/LGa8q6rECYKY9xrW9DYo9T/xzN00f9VSM2szvj5rwxtt/ooHHIqhkzYesAzmyzu2g7e5e4hhVgA==}
     hasBin: true
     dependencies:

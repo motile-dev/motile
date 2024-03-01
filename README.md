@@ -1,4 +1,4 @@
-# trigs
+# motile
 
 To install dependencies:
 

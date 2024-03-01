@@ -1,0 +1,35 @@
+{
+  "name": "create-motile",
+  "version": "0.0.1-alpha.1",
+  "description": "",
+  "main": "dist/index.js",
+  "bin": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup --format esm index.ts",
+    "publish": "tsup --format esm index.ts && npm publish",
+    "dev": "node --watch --loader @esbuild-kit/esm-loader ./index.ts",
+    "start": "node --loader @esbuild-kit/esm-loader ./index.ts"
+  },
+  "files": [
+    "dist/index.js"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@badrap/result": "^0.2.13",
+    "@inquirer/prompts": "^4.0.0",
+    "execa": "^8.0.1",
+    "giget": "^1.2.1",
+    "log-update": "^6.0.0",
+    "replace-in-file": "^7.1.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@esbuild-kit/esm-loader": "^2.6.5",
+    "@types/node": "^20.11.16"
+  }
+}

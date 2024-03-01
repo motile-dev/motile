@@ -1,5 +1,5 @@
 {
-  "name": "trigs",
+  "name": "motile",
   "scripts": {
     "dev": "FILE=docker-compose-dev.yml; docker-compose -f $FILE watch"
   },
@@ -9,6 +9,8 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {}
 }

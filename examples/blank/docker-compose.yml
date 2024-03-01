@@ -1,5 +1,5 @@
 version: "3.8"
-name: trigs
+name: motile
 
 configs:
   postgres_config:
@@ -25,8 +25,8 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
-  trigs-exec:
-    image: "trigsdev/trigs-exec:latest"
+  motile-exec:
+    image: "motiledev/motile-exec:latest"
     ports:
       - 4020:4020
     environment:
@@ -34,11 +34,11 @@ services:
     depends_on:
       - postgres
 
-  trigs-core:
-    image: "trigsdev/trigs-core:latest"
+  motile-core:
+    image: "motiledev/motile-core:latest"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
-      TRIGS_EXEC_URL: http://trigs-exec:4020
+      motile_EXEC_URL: http://motile-exec:4020
     ports:
       - 3377:3377
     depends_on:
