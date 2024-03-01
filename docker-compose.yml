@@ -52,7 +52,7 @@ services:
           path: packages/motile-core/
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
-      motile_EXEC_URL: http://motile-exec:4020
+      MOTILE_EXEC_URL: http://motile-exec:4020
     ports:
       - 3377:3377
     depends_on:
