@@ -1,6 +1,7 @@
 # motile
 
 motile [ moht-l, moh-til ] adjective - moving or capable of moving spontaneously
+
 Helps with postgres event sourcing in Typescript.
 
 - Makes use of robust and battle tested mechanisms in postgres to provide a reliable and scalable event sourcing solution.
@@ -51,9 +52,10 @@ Run the project in dev mode.
 pnpm run dev
 ```
 
-The last command will use the cli in watch mode. This does two things. First, it watches for changes to the schema of your database and syncs them so you have correct typings in your handlers. Second, it watches for changes to your handlers and syncs them to the server.
+The last command will start the motile CLI in watch mode. This does two things. First, it watches for changes to the schema of your database and syncs them so you have correct typings in your handlers. Second, it watches for changes to your handlers and syncs them to the server.
 
 To see some action, change the email address that is used in the `app/users.ts` file to an email address that you have access to. Then connect to the database and add a user to the users table.
+You should see an email in your inbox. You can also see that creating a user has lead to the creation of a welcome chat message in the corresponding table.
 
 You can use the following command to connect to the database.
 
