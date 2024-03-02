@@ -29,7 +29,7 @@ async function run() {
   const template = await select({
     message: "What template would you like to use?",
     choices: [
-      { name: "Blank", value: "blank", description: "A blank project" },
+      // { name: "Blank", value: "blank", description: "A blank project" },
       {
         name: "Chat mail notifications",
         value: "chat",
@@ -41,7 +41,7 @@ async function run() {
   const stopTemplateDownloadSpinner = startSpinner(
     `Creating project from template ${template}`
   );
-  await downloadTemplate(`github:motiledev/motile/examples/${template}`, {
+  await downloadTemplate(`github:motile-dev/motile/examples/${template}`, {
     dir: projectName,
     forceClean: true,
   });
@@ -54,7 +54,7 @@ async function run() {
 
   stopTemplateDownloadSpinner();
 
-  fs.writeFileSync(`${projectName}/.env`, `MOTILE_SERVER=${serverUrl}\n`);
+  fs.writeFileSync(`${projectName}/.env`, `MOTILE_SERVER_URL="${serverUrl}"\n`);
 
   const stopInstallPackagesSpinner = startSpinner(
     `Installing packages with ${packageManager.value}`

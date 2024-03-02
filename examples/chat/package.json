@@ -8,7 +8,8 @@
     "db.migrate": "pg-migrations apply --directory db/migrations --database postgres://postgres:postgres@localhost:2345/postgres",
     "dev": "motile dev",
     "refresh": "motile refresh",
-    "version": "motile -V"
+    "version": "motile -V",
+    "studio": "drizzle-kit studio"
   },
   "keywords": [],
   "author": "",
