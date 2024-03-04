@@ -6,7 +6,6 @@ import { downloadTemplate } from "giget";
 import replaceInFile from "replace-in-file";
 import fs from "node:fs";
 import chalk from "chalk";
-import { startSpinner } from "./utils/cli.js";
 import {
   cancel,
   select,
@@ -80,8 +79,6 @@ async function run() {
     from: /^\s*"name":\s*".*?"/m,
     to: `  "name": "${projectName}"`,
   });
-
-  fs.writeFileSync(`${projectName}/.env`, `MOTILE_SERVER_URL="${serverUrl}"\n`);
 
   s.stop(`Project successfully scaffolded`);
 
