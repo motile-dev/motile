@@ -18,11 +18,7 @@ pnpm run db.migrate
 
 4. Add a resend api key to your `.env` file.
 
-```bash
-RESEND_API_KEY="your-api-key"
-```
-
-3. Start the example in dev mode.
+5. Start the example in dev mode.
 
 ```bash
 pnpm run dev
