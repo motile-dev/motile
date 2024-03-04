@@ -1,6 +1,6 @@
 {
   "name": "create-motile",
-  "version": "0.0.1-alpha.4",
+  "version": "0.0.1-alpha.5",
   "description": "",
   "main": "dist/index.js",
   "bin": "dist/index.js",
@@ -19,7 +19,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@badrap/result": "^0.2.13",
-    "@inquirer/prompts": "^4.0.0",
+    "@clack/prompts": "^0.7.0",
     "execa": "^8.0.1",
     "giget": "^1.2.1",
     "log-update": "^6.0.0",

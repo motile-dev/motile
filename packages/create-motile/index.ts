@@ -1,46 +1,75 @@
 #!/usr/bin/env node
 
 import { getPackageManager } from "./utils/packageManager.js";
-import { input, select } from "@inquirer/prompts";
 import { $ } from "execa";
 import { downloadTemplate } from "giget";
 import replaceInFile from "replace-in-file";
 import fs from "node:fs";
 import chalk from "chalk";
 import { startSpinner } from "./utils/cli.js";
+import {
+  cancel,
+  select,
+  intro,
+  isCancel,
+  outro,
+  text,
+  spinner,
+} from "@clack/prompts";
+
+const packageManager = getPackageManager();
 
 async function run() {
-  const packageManager = getPackageManager();
-  if (packageManager.isErr)
-    return console.error(`Package manager could not be determined`);
+  intro(`Create a new motile project`);
 
-  console.log(`Creating motile project with ${packageManager.value}`);
+  if (packageManager.isErr) {
+    cancel(`Could not identify your package manager`);
+    return process.exit(0);
+  }
 
-  const projectName = await input({
+  const projectName = await text({
     message: "What is the name of your project?",
-    default: "my-motile-project",
+    placeholder: "my-motile-project",
+    defaultValue: "my-motile-project",
   });
 
-  const serverUrl = await input({
+  if (isCancel(projectName)) {
+    cancel("Operation cancelled");
+    return process.exit(0);
+  }
+
+  // console.log(`Creating motile project with ${packageManager.value}`);
+  const serverUrl = await text({
     message: "Where can we find your motile server?",
-    default: "http://127.0.0.1:3377",
+    placeholder: "http://127.0.0.1:3377",
+    defaultValue: "http://127.0.0.1:3377",
   });
+
+  if (isCancel(serverUrl)) {
+    cancel("Operation cancelled");
+    return process.exit(0);
+  }
 
   const template = await select({
     message: "What template would you like to use?",
-    choices: [
+    options: [
       // { name: "Blank", value: "blank", description: "A blank project" },
       {
-        name: "Chat mail notifications",
+        label: "Chat",
+        hint: "Small example showcasing event sourcing",
         value: "chat",
-        description: "A simple example app",
       },
     ],
   });
 
-  const stopTemplateDownloadSpinner = startSpinner(
-    `Creating project from template ${template}`
-  );
+  if (isCancel(template)) {
+    cancel("Operation cancelled");
+    return process.exit(0);
+  }
+
+  const s = spinner();
+  s.start(`Creating project from template ${template}`);
+
   await downloadTemplate(`github:motile-dev/motile/examples/${template}`, {
     dir: projectName,
     forceClean: true,
@@ -52,37 +81,35 @@ async function run() {
     to: `  "name": "${projectName}"`,
   });
 
-  stopTemplateDownloadSpinner();
-
   fs.writeFileSync(`${projectName}/.env`, `MOTILE_SERVER_URL="${serverUrl}"\n`);
 
-  const stopInstallPackagesSpinner = startSpinner(
-    `Installing packages with ${packageManager.value}`
-  );
+  s.stop(`Project successfully scaffolded`);
+
+  s.start(`Installing packages with ${packageManager.value}`);
 
   await $({
     cwd: projectName,
   })`${packageManager.value} install`;
 
-  stopInstallPackagesSpinner();
+  s.stop(`Packages installed`);
 
-  console.log(`    🎉  Project created successfully  🎉
-
-    Now go an have some fun!
+  outro(`🎉  Project created successfully  🎉 
+  
+    Now go and have some fun!
 
     ${chalk.hex("#666")(`# Change into the project directory`)}
     cd ${projectName}
 
-    ${chalk.hex("#666")(`# Ramp up a database and start the server`)}
-    ${packageManager.value} up
+    ${chalk.hex("#666")(`# Ramp up a database and start the motile server`)}
+    ${packageManager.value} run server.up
 
     ${chalk.hex("#666")(`# Prepare the database for the example`)}
-    ${packageManager.value} db.migrate
+    ${packageManager.value} run db.migrate
 
     ${chalk.hex("#666")(
       `# Use motile cli to sync your project with the server`
     )}
-    ${packageManager.value} dev
+    ${packageManager.value} run dev
     `);
 }
 

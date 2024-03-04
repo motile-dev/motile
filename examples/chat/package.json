@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "up": "docker compose up -d",
+    "server.up": "docker compose up -d",
     "db.migrate": "pg-migrations apply --directory db/migrations --database postgres://postgres:postgres@localhost:2345/postgres",
     "dev": "motile dev",
     "refresh": "motile refresh",
