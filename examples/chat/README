@@ -1,0 +1,35 @@
+# motile chat example
+
+A basic example on how to utilize motile to react to changes in your database.
+
+## First steps
+
+1. Ramp up the database and the motile server.
+
+```bash
+pnpm run server.up
+```
+
+2. Prepare the database for the example
+
+```bash
+pnpm run db.migrate
+```
+
+4. Add a resend api key to your `.env` file.
+
+```bash
+RESEND_API_KEY="your-api-key"
+```
+
+3. Start the example in dev mode.
+
+```bash
+pnpm run dev
+```
+
+4. Connect to the database and add a user to the users table. You can use any postgres client you want, or you can use drizzle studio which is preinstalled with the project.
+
+```bash
+pnpm run studio
+```
