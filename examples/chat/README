@@ -10,7 +10,7 @@ A basic example on how to utilize motile to react to changes in your database.
 pnpm run server.up
 ```
 
-2. Prepare the database for the example
+2. Prepare the database for the example.
 
 ```bash
 pnpm run db.migrate

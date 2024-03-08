@@ -4,7 +4,6 @@ import { getPackageManager } from "./utils/packageManager.js";
 import { $ } from "execa";
 import { downloadTemplate } from "giget";
 import replaceInFile from "replace-in-file";
-import fs from "node:fs";
 import chalk from "chalk";
 import {
   cancel,
@@ -104,7 +103,7 @@ async function run() {
     ${packageManager.value} run db.migrate
 
     ${chalk.hex("#666")(
-      `# Use motile cli to sync your project with the server`
+      `# Use motile cli to sync your project with the server`,
     )}
     ${packageManager.value} run dev
     `);
